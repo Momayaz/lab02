@@ -1,4 +1,5 @@
 my partner : MHD FADI HBOUBATI
+
 Number and name of feature: Feature #1: Display images
 Estimate of time needed to complete: unknown
 Start time: 2:00
