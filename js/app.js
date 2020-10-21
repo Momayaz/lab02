@@ -1,70 +1,42 @@
 
+
 'use strict';
 
+function Photos(data) {
+  this.image = data.image_url;
+  this.title = data.title;
+  this.descrip = data.description;
+  this.keyWord = data.keyword;
+  this.horn = data.horns;
+}
 
-function Horns (data) {
-  this.image_url = data.image_url,
-  this.title = data.title,
-  this.description = data.description,
-  this.keyword = data.keyword,
-  this.horns = data.horns;
+$.ajax('../data/page-1.json', {
+  method: 'get',
+  dataType: 'json',
+}).then(allData => {
+  allData.forEach(allInfo => {
+    let allPhotos = new Photos(allInfo);
+    allPhotos.render();
+    console.log(allPhotos);
+  });
+});
+Photos.prototype.render = function () {
+  let selectorEl = $('<option></option>').text(this.keyWord);
+  $('select').append(selectorEl);
+  let sectionEl = $('#section-template').clone();
+  $('main').append(sectionEl);
+  sectionEl.find('h2').text(this.title);
+  sectionEl.find('img').attr('src', this.image);
+  sectionEl.find('#description').text(this.descrip);
+  sectionEl.find('#horns').text(`The number Of Horns Is: ${this.horn}`);
+  sectionEl.attr('class', this.keyWord);
+
 
 }
 
-Horns.prototype.render = function () {
-
-  let photoTemplateCloned = $('#photo-template').clone();
-  $('main').append(photoTemplateCloned);
-  
-
-  photoTemplateCloned.html (
-
-    `   
-        <div class = "${this.keyword}">
-        <h2>${this.title}</h2>
-        <img src="${this.image_url}" alt="">
-        <p id="dec">${this.description}</p>
-        <p id="numHorns">number of horns is ${this.horns}</p>
-        </div>
-        
-    `
-  );
-
-
-};
-
-const ajaxSettings = {
-  method: 'get',
-  dataType: 'json'
-};
-
-$.ajax ('../data/page-1.json',ajaxSettings).then ( data => {
-  data.forEach(element => {
-
-    let horn = new Horns (element);
-    horn.render();
-
-    let optionEl = $(`<option value = "${horn.keyword}">${horn.keyword}</option>`);
-    $('select').append(optionEl);
-
-
-  });
-
-
-
+$('select').change(function () {
+  let selected = this.value;
+  $('section').hide();
+  $(`.${selected}`).show();
+  console.log(selected);
 });
-
-$(document).ready(function(){
-  $('select').on('change', function(event){
-
-    let selected = event.target.value; 
-    console.log(selected);
-
-    $(`div`).hide();
-    $(`.${selected}`).fadeIn(1000);
-
-  });
-});
-
-
-
