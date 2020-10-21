@@ -27,6 +27,3 @@ Estimate of time needed to complete: unknown
 Start time: 10:00
 
 Finish time: 10:10
-
-Actual time needed to complete: 10 min
-
